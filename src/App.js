@@ -26,8 +26,30 @@ class App extends React.Component {
       steps: e.target.value,
       temperature: e.target.value,
     });
+    this.calculateWater();
   };
 
+  calculateWater = () => {
+    const minWater = 1.5;
+    const plusWater = 0.02;
+    const bpmPlus = 0.0008;
+    const stepsPlus = 0.00002;
+    if (this.state.temperature > 20) {
+      this.setState({
+        water: this.state.water + (minWater + plusWater),
+      });
+      if (this.state.heart > 120) {
+        this.setState({
+          water: this.state.water + (bpmPlus + plusWater),
+        });
+        if (this.state.steps > 10000) {
+          this.setState({
+            water: this.state.water + (stepsPlus + plusWater),
+          });
+        }
+      }
+    }
+  };
   render() {
     return (
       <div className="container-fluid">
