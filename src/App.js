@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "./components/Box";
 import "./styles/global.css";
+import Box from "./components/Box";
 
 const tempMin = -20;
 const tempMax = 40;
@@ -12,21 +12,21 @@ const stepsMax = 50000;
 class App extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      water: 0,
+      water: 1.5,
       heart: 120,
       temperature: -10,
       steps: 3000,
     };
   }
+
   onHeartChange = (e) => {
     this.setState({
       heart: e.target.value,
     });
     this.calculateWater();
   };
-  onStepsChange = (e) => {
+  onStepChange = (e) => {
     this.setState({
       steps: e.target.value,
     });
@@ -40,67 +40,71 @@ class App extends React.Component {
   };
 
   calculateWater = () => {
-    const minWater = 1.5;
-    const plusWater = 0.02;
-    const bpmPlus = 0.0008;
-    const stepsPlus = 0.00002;
-    let temPlus;
-    let heartPlus;
-    let stepPlus;
+    let result = 1.5;
 
     if (this.state.temperature > 20) {
-      temPlus = (this.state.temperature - 20) * plusWater;
-    } else {
-      temPlus = 0;
+      result += (this.state.temperature - 20) * 0.02;
+      this.setState({
+        water: result.toFixed(2),
+      });
     }
     if (this.state.heart > 120) {
-      heartPlus = (this.state.heart - 120) * bpmPlus;
-    } else {
-      heartPlus = 0;
+      result += (this.state.heart - 120) * 0.0008;
+      this.setState({
+        water: result.toFixed(2),
+      });
     }
     if (this.state.steps > 10000) {
-      stepPlus = (this.state.steps - 10000) * stepsPlus;
-    } else {
-      stepPlus = 0;
+      result += (this.state.steps - 10000) * 0.00002;
+      this.setState({
+        water: result.toFixed(2),
+      });
     }
-    this.setState({
-      water: minWater + temPlus + heartPlus + stepPlus,
-    });
   };
+
   render() {
     return (
       <div className="container-fluid">
         <div className="row">
-          <Box icon="local_drink" color="#3A85FF" value={1.5} unit="L" />
+          <Box
+            name="water"
+            icon="local_drink"
+            color="#3A85FF"
+            value={this.state.water}
+            unit="L"
+          />
 
           <Box
+            name="steps"
             icon="directions_walk"
             color="black"
             value={this.state.steps}
             unit="steps"
-            min={stepsMin}
-            max={stepsMax}
-            onChange={this.onStepsChange}
+            minimum={stepsMin}
+            maximum={stepsMax}
+            change={this.onStepChange}
           />
 
           <Box
+            name="heart"
             icon="favorite"
             color="red"
             value={this.state.heart}
             unit="bpm"
-            min={heartMin}
-            max={heartMax}
-            onChange={this.onHeartChange}
+            minimum={heartMin}
+            maximum={heartMax}
+            change={this.onHeartChange}
           />
 
           <Box
+            name="temperature"
             icon="wb_sunny"
             color="yellow"
             value={this.state.temperature}
             unit="°C"
-            min={stepsMin}
-            max={stepsMax}
-            onChange={this.onTempChange}
+            minimum={tempMin}
+            maximum={tempMax}
+            change={this.onTempChange}
           />
         </div>
       </div>
