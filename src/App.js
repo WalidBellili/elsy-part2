@@ -34,21 +34,28 @@ class App extends React.Component {
     const plusWater = 0.02;
     const bpmPlus = 0.0008;
     const stepsPlus = 0.00002;
+    let temPlus;
+    let heartPlus;
+    let stepPlus;
+
     if (this.state.temperature > 20) {
-      this.setState({
-        water: this.state.water + (minWater + plusWater),
-      });
-      if (this.state.heart > 120) {
-        this.setState({
-          water: this.state.water + (bpmPlus + plusWater),
-        });
-        if (this.state.steps > 10000) {
-          this.setState({
-            water: this.state.water + (stepsPlus + plusWater),
-          });
-        }
-      }
+      temPlus = (this.state.temperature - 20) * plusWater;
+    } else {
+      temPlus = 0;
     }
+    if (this.state.heart > 120) {
+      heartPlus = (this.state.heart - 120) * bpmPlus;
+    } else {
+      heartPlus = 0;
+    }
+    if (this.state.steps > 10000) {
+      stepPlus = (this.state.steps - 10000) * stepsPlus;
+    } else {
+      stepPlus = 0;
+    }
+    this.setState({
+      water: minWater + temPlus + heartPlus + stepPlus,
+    });
   };
   render() {
     return (
