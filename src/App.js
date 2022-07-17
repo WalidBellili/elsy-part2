@@ -23,7 +23,17 @@ class App extends React.Component {
   onHeartChange = (e) => {
     this.setState({
       heart: e.target.value,
+    });
+    this.calculateWater();
+  };
+  onStepsChange = (e) => {
+    this.setState({
       steps: e.target.value,
+    });
+    this.calculateWater();
+  };
+  onTempChange = (e) => {
+    this.setState({
       temperature: e.target.value,
     });
     this.calculateWater();
@@ -70,7 +80,7 @@ class App extends React.Component {
             unit="steps"
             min={stepsMin}
             max={stepsMax}
-            onChange={this.onHeartChange}
+            onChange={this.onStepsChange}
           />
 
           <Box
@@ -90,7 +100,7 @@ class App extends React.Component {
             unit="°C"
             min={stepsMin}
             max={stepsMax}
-            onChange={this.onHeartChange}
+            onChange={this.onTempChange}
           />
         </div>
       </div>

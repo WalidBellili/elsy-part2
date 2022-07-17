@@ -5,7 +5,7 @@ class Box extends React.Component {
     // if (this.props.icon === "local_drink") {
 
     // }
-    const isWater = this.props.icon === "local_drink";
+    const isWater = this.props.icon !== "local_drink";
     return (
       <div className="box col-sm-3 col-6">
         <span
@@ -23,8 +23,6 @@ class Box extends React.Component {
         </p>
 
         {isWater ? (
-          "local_drink"
-        ) : (
           <input
             type="range"
             onChange={this.props.onChange}
@@ -33,6 +31,8 @@ class Box extends React.Component {
             value={this.props.value}
             name={this.props.icon}
           />
+        ) : (
+          ""
         )}
       </div>
     );
